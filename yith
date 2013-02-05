@@ -19,6 +19,11 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+/*jslint vars: false, node: true, nomen: true */
+/*global */
+
+"use strict";
+
 var program = require("commander"),
     fs = require("fs"),
     zlib = require("zlib"),
@@ -30,12 +35,11 @@ var program = require("commander"),
 // FUNCTIONS
 
 string = function (val) {
-    return "" + val;
+    return String(val);
 };
 
 list = function (secrets) {
     var i;
-
     for (i = 0; i < secrets.length; i += 1) {
         console.log("[" + i + "] " + secrets[i].service);
     }
@@ -52,7 +56,7 @@ program
     .option("-d, --decipher <service>", "Decipher a secret", string)
     .parse(process.argv);
 
-if (program.args.length != 1) {
+if (program.args.length !== 1) {
     console.log("Wrong number of arguments");
     console.log("Usage: " + program._usage);
     return;
@@ -79,5 +83,4 @@ try {
 } catch (err) {
     console.log("An error was encountered reading the file: " + program.args[0]);
     console.log(err.message);
-    return;
 }
