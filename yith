@@ -21,12 +21,29 @@
 
 var program = require("commander"),
     fs = require("fs"),
-
+    zlib = require("zlib"),
+    string,
+    list,
+    decipher,
     secrets;
 
-function string(val) {
+// FUNCTIONS
+
+string = function (val) {
     return "" + val;
-}
+};
+
+list = function (secrets) {
+    var i;
+
+    for (i = 0; i < secrets.length; i += 1) {
+        console.log("[" + i + "] " + secrets[i].service);
+    }
+};
+
+decipher = function (secrets) {};
+
+// MAIN
 
 program
     .version("0.0.0")
@@ -42,14 +59,25 @@ if (program.args.length != 1) {
 }
 
 try {
-    secrets = fs.readFileSync(program.args[0], "utf-8");
-    secrets = JSON.parse(secrets);
+    secrets = fs.readFileSync(program.args[0]);
+    secrets = zlib.unzip(secrets, function (err, buffer) {
+        var secrets = JSON.parse(buffer.toString());
+
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        if (program.list) {
+            list(secrets);
+        }
+
+        if (program.decipher) {
+            decipher(secrets);
+        }
+    });
 } catch (err) {
     console.log("An error was encountered reading the file: " + program.args[0]);
     console.log(err.message);
     return;
-}
-
-if (program.list) {
-    console.log(secrets);
 }
