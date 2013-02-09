@@ -128,7 +128,7 @@ list = function (secrets) {
         s = secrets[i];
         output = "[";
         if (s.originalIndex) {
-            output += s.originalIndex;
+            output += s.originalIndex + 1;
         } else {
             output += (i + 1);
         }
@@ -181,6 +181,32 @@ decipher = function (secrets, toDecipher) {
     });
 };
 
+view = function (secrets, toShow) {
+    var data,
+        output,
+        i;
+
+    if (toShow < 1 || toShow > secrets.length) {
+        console.log("That secret doesn't exist, please enter a valid number");
+    }
+    data = secrets[toShow - 1];
+
+    output = "Service: " + data.service + "\nAccount: " + data.account +
+        "\nTags: ";
+    for (i = 0; i < data.tags.length; i += 1) {
+        output += data.tags[i];
+        if (i != data.tags.length - 1) {
+            output += ", ";
+        }
+    }
+    output += "\nExpiration: " + data.expiration;
+    if (data.notes != "") {
+        output += "\nNotes:\n" + data.notes;
+    }
+
+    console.log(output);
+};
+
 // MAIN
 
 program
@@ -218,6 +244,10 @@ try {
 
         if (program.decipher) {
             decipher(secrets, program.decipher);
+        }
+
+        if (program.view) {
+            view(secrets, program.view);
         }
     });
 } catch (err) {
