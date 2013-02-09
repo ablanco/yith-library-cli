@@ -108,17 +108,53 @@ sjcl.misc.S={};sjcl.misc.cachedPbkdf2=function(a,b){var c=sjcl.misc.S,d;b=b||{};
 var program = require("commander"),
     fs = require("fs"),
     zlib = require("zlib"),
+    string,
     list,
+    search,
     decipher,
+    view,
     secrets;
 
 // FUNCTIONS
 
+string = function (val) {
+    return String(val);
+};
+
 list = function (secrets) {
-    var i;
+    var output,
+        i, s;
     for (i = 0; i < secrets.length; i += 1) {
-        console.log("[" + (i + 1) + "] " + secrets[i].service);
+        s = secrets[i];
+        output = "[";
+        if (s.originalIndex) {
+            output += s.originalIndex;
+        } else {
+            output += (i + 1);
+        }
+        console.log(output + "] " + s.service + " / " + s.account);
     }
+};
+
+search = function (secrets, keyword) {
+    var matches = [],
+        match,
+        i, s;
+
+    keyword = keyword.toLowerCase();
+
+    for (i = 0; i < secrets.length; i += 1) {
+        s = secrets[i];
+        match = false;
+        if ((s.service.toLowerCase().indexOf(keyword) >= 0) ||
+            (s.account.toLowerCase().indexOf(keyword) >= 0) ||
+            (s.notes.toLowerCase().indexOf(keyword) >= 0)) {
+            s.originalIndex = i;
+            matches.push(s);
+        }
+    }
+
+    list(matches);
 };
 
 decipher = function (secrets, toDecipher) {
@@ -151,7 +187,9 @@ program
     .version("0.0.0")
     .usage("[options] <backup file>")
     .option("-l, --list", "List passwords")
+    .option("-s, --search <keyword>", "Search secrets", string)
     .option("-d, --decipher <service number>", "Decipher a secret", parseInt)
+    .option("-v, --view <service number>", "Show a secret details", parseInt)
     .parse(process.argv);
 
 if (program.args.length !== 1) {
@@ -172,6 +210,10 @@ try {
 
         if (program.list) {
             list(secrets);
+        }
+
+        if (program.search) {
+            search(secrets, program.search);
         }
 
         if (program.decipher) {
