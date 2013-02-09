@@ -123,7 +123,8 @@ string = function (val) {
 
 list = function (secrets) {
     var output,
-        i, s;
+        i,
+        s;
     for (i = 0; i < secrets.length; i += 1) {
         s = secrets[i];
         output = "[";
@@ -139,7 +140,8 @@ list = function (secrets) {
 search = function (secrets, keyword) {
     var matches = [],
         match,
-        i, s;
+        i,
+        s;
 
     keyword = keyword.toLowerCase();
 
@@ -147,8 +149,8 @@ search = function (secrets, keyword) {
         s = secrets[i];
         match = false;
         if ((s.service.toLowerCase().indexOf(keyword) >= 0) ||
-            (s.account.toLowerCase().indexOf(keyword) >= 0) ||
-            (s.notes.toLowerCase().indexOf(keyword) >= 0)) {
+                (s.account.toLowerCase().indexOf(keyword) >= 0) ||
+                (s.notes.toLowerCase().indexOf(keyword) >= 0)) {
             s.originalIndex = i;
             matches.push(s);
         }
@@ -195,12 +197,12 @@ view = function (secrets, toShow) {
         "\nTags: ";
     for (i = 0; i < data.tags.length; i += 1) {
         output += data.tags[i];
-        if (i != data.tags.length - 1) {
+        if (i !== data.tags.length - 1) {
             output += ", ";
         }
     }
     output += "\nExpiration: " + data.expiration;
-    if (data.notes != "") {
+    if (data.notes !== "") {
         output += "\nNotes:\n" + data.notes;
     }
 
