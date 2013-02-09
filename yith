@@ -213,11 +213,11 @@ view = function (secrets, toShow) {
 
 program
     .version("0.0.0")
-    .usage("[options] <backup file>")
+    .usage("[options] <backup_file>")
     .option("-l, --list", "List passwords")
     .option("-s, --search <keyword>", "Search secrets", string)
-    .option("-d, --decipher <service number>", "Decipher a secret", parseInt)
-    .option("-v, --view <service number>", "Show a secret details", parseInt)
+    .option("-d, --decipher <service_number>", "Decipher a secret", parseInt)
+    .option("-v, --view <service_number>", "Show a secret details", parseInt)
     .parse(process.argv);
 
 if (program.args.length !== 1) {

@@ -1,7 +1,18 @@
 Yith Library - Command line interface
 =====================================
 
-Based on Node.js
+Requires Node.js
+
+    Usage: yith [options] <backup_file>
+
+    Options:
+
+    -h, --help                       output usage information
+    -V, --version                    output the version number
+    -l, --list                       List passwords
+    -s, --search <keyword>           Search secrets
+    -d, --decipher <service_number>  Decipher a secret
+    -v, --view <service_number>      Show a secret details
 
 MIT License
 -----------
