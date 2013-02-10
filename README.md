@@ -2,9 +2,14 @@
 
 Command line interface for [Yith Library](http://yithlibrary.com).
 
+Right now it can only read the contents of a Yith Library backup file,
+providing offline access to your protected secrets. Interaction with a remote
+Yith Library server is planned for future releases (contributions are
+welcome!).
+
 ## Installation
 
-This client is build on top of [node.js](http://nodejs.org), it requires 
+This client is build on top of [node.js](http://nodejs.org), it requires
 **node.js 0.6** o higher to be present.
 
 This package is intended to be installed system wide, so execute the next
