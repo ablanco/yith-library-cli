@@ -26,7 +26,7 @@ First you need to get a copy of the code, just clone the repository:
 
     git clone git://github.com/ablanco/yith-library-cli.git
 
-When the clone is done, you need to install de dependencies:
+When the clone is done, you need to install the dependencies:
 
     cd yith-library-cli
     npm install -d
