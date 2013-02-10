@@ -229,7 +229,8 @@ if (program.args.length !== 1) {
 try {
     secrets = fs.readFileSync(program.args[0]);
     secrets = zlib.unzip(secrets, function (err, buffer) {
-        var secrets = JSON.parse(buffer.toString());
+        var secrets = JSON.parse(buffer.toString()),
+            hadOptions = false;
 
         if (err) {
             console.log(err);
@@ -237,19 +238,27 @@ try {
         }
 
         if (program.list) {
+            hadOptions = true;
             list(secrets);
         }
 
         if (program.search) {
+            hadOptions = true;
             search(secrets, program.search);
         }
 
         if (program.decipher) {
+            hadOptions = true;
             decipher(secrets, program.decipher);
         }
 
         if (program.view) {
+            hadOptions = true;
             view(secrets, program.view);
+        }
+
+        if (!hadOptions) {
+            list(secrets);
         }
     });
 } catch (err) {

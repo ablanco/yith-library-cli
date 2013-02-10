@@ -1,7 +1,34 @@
-Yith Library - Command line interface
-=====================================
+# Yith Library - Command line interface
 
-Requires Node.js
+Command line interface for [Yith Library](http://yithlibrary.com).
+
+## Installation
+
+This client is build on top of [node.js](http://nodejs.org), it requires 
+**node.js 0.6** o higher to be present.
+
+This package is intended to be installed system wide, so execute the next
+command with root priviledges:
+
+    npm install -g yith-library-cli
+
+When npm finish installing the client, you will have the `yith` command
+available.
+
+### Development
+
+First you need to get a copy of the code, just clone the repository:
+
+    git clone git://github.com/ablanco/yith-library-cli.git
+
+When the clone is done, you need to install de dependencies:
+
+    cd yith-library-cli
+    npm install -d
+
+And now you are ready to start developing awesome contributions :)
+
+## Usage
 
     Usage: yith [options] <backup_file>
 
@@ -14,8 +41,7 @@ Requires Node.js
     -d, --decipher <service_number>  Decipher a secret
     -v, --view <service_number>      Show a secret details
 
-MIT License
------------
+## MIT License
 
 Copyright (c) 2013 Alejandro Blanco &lt;alejandro.b.e@gmail.com&gt;
 
