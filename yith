@@ -139,7 +139,6 @@ list = function (secrets) {
 
 search = function (secrets, keyword) {
     var matches = [],
-        match,
         i,
         s;
 
@@ -147,10 +146,12 @@ search = function (secrets, keyword) {
 
     for (i = 0; i < secrets.length; i += 1) {
         s = secrets[i];
-        match = false;
-        if ((s.service.toLowerCase().indexOf(keyword) >= 0) ||
-                (s.account.toLowerCase().indexOf(keyword) >= 0) ||
-                (s.notes.toLowerCase().indexOf(keyword) >= 0)) {
+        s.serviceLC = s.service ? s.service.toLowerCase() : "";
+        s.accountLC = s.account ? s.account.toLowerCase() : "";
+        s.notesLC = s.notes ? s.notes.toLowerCase() : "";
+        if (s.serviceLC.indexOf(keyword) >= 0 ||
+                s.accountLC.indexOf(keyword) >= 0 ||
+                s.notesLC.indexOf(keyword) >= 0) {
             s.originalIndex = i;
             matches.push(s);
         }
