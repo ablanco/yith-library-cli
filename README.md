@@ -1,5 +1,8 @@
 # Yith Library - Command line interface
 
+[![NPM version](https://badge.fury.io/js/yith-library-cli.png)](http://badge.fury.io/js/yith-library-cli)
+[![Dependency Status](https://david-dm.org/ablanco/yith-library-cli.png)](https://david-dm.org/ablanco/yith-library-cli)
+
 Command line interface for [Yith Library](http://yithlibrary.com).
 
 Right now it can only read the contents of a Yith Library backup file,
