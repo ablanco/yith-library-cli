@@ -1,6 +1,6 @@
 {
     "name": "yith-library-cli",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "preferGlobal": true,
     "author": "Alejandro Blanco <alejandro.b.e@gmail.com>",
     "description": "a command-line interface to Yith Library",
@@ -15,7 +15,8 @@
         "yithlibrary"
     ],
     "dependencies": {
-        "commander": "1.1.x"
+        "commander": "2.1.x",
+        "prompt": "0.2.x"
     },
     "bin": {
         "yith": "./yith"
