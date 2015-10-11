@@ -132,6 +132,57 @@ sjcl.misc.S={};sjcl.misc.cachedPbkdf2=function(a,b){var c=sjcl.misc.S,d;b=b||{};
         return String(val);
     };
 
+    // ref: http://stackoverflow.com/a/1293163/2343
+    parseCSV = function(csvStr, delimiter) {
+        delimiter = (delimiter || ",");
+        var objPattern = new RegExp(
+            (
+                // Delimiters
+                "(\\" + delimiter + "|\\r?\\n|\\r|^)" +
+                // Quoted fields
+                "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
+                // Standard fields
+                "([^\"\\" + delimiter + "\\r\\n]*))"
+            ),
+            "gi"
+        );
+        var output = [[]];
+        var matches = null;
+        var matchedDelimiter = '';
+        var strMatchedValue = null;
+
+        // Keep looping over the regular expression matches
+        // until we can no longer find a match
+        while (matches = objPattern.exec(csvStr)) {
+            matchedDelimiter = matches[1];
+
+            // Check to see if the given delimiter has a length
+            // (is not the start of string) and if it matches
+            // field delimiter. If id does not, then we know
+            // that this delimiter is a row delimiter
+            if (matchedDelimiter.length && matchedDelimiter !== delimiter) {
+                // new row of data, add an empty row to the output
+                output.push([]);
+            }
+
+            if (matches[2]) {
+                // quoted value, unescape any double quotes
+                strMatchedValue = matches[2].replace(
+                    new RegExp("\"\"", "g"),
+                    "\""
+                );
+            } else {
+                // non-quoted value
+                strMatchedValue = matches[3];
+            }
+
+            output[output.length-1].push(strMatchedValue);
+        }
+
+        // Return the parsed data.
+        return output;
+    };
+
     list = function (secrets) {
         var output,
             i,
