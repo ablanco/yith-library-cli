@@ -114,10 +114,13 @@ sjcl.misc.S={};sjcl.misc.cachedPbkdf2=function(a,b){var c=sjcl.misc.S,d;b=b||{};
         zlib = require("zlib"),
         promptSchema,
         string,
+        createEntry,
+        parseCSV,
         list,
         search,
         decipher,
         view,
+        importLastpass,
         secretsFile;
 
     promptSchema = {
@@ -127,9 +130,74 @@ sjcl.misc.S={};sjcl.misc.cachedPbkdf2=function(a,b){var c=sjcl.misc.S,d;b=b||{};
     };
 
     // FUNCTIONS
-
     string = function (val) {
         return String(val);
+    };
+
+    createEntry = function(service, account, secret, tags, notes, expiration) {
+        var expiration = expiration || 0,
+            tags = tags instanceof Array ? tags : (tags ? [tags] : []),
+            notes = notes || '',
+            entry = {
+                service: service,
+                account: account,
+                secret: secret,
+                tags: tags,
+                notes: notes,
+                expiration: expiration
+            };
+        return entry;
+    };
+
+    // Taken from http://stackoverflow.com/a/1293163/2343
+    parseCSV = function (csvStr, delimiter) {
+        delimiter = (delimiter || ",");
+        var objPattern = new RegExp(
+            (
+                // Delimiters
+                "(\\" + delimiter + "|\\r?\\n|\\r|^)" +
+                // Quoted fields
+                "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
+                // Standard fields
+                "([^\"\\" + delimiter + "\\r\\n]*))"
+            ),
+            "gi"
+        );
+        var output = [[]];
+        var matches = null;
+        var matchedDelimiter = '';
+        var strMatchedValue = null;
+
+        // Keep looping over the regular expression matches
+        // until we can no longer find a match
+        while (matches = objPattern.exec(string(csvStr).trim())) {
+            matchedDelimiter = matches[1];
+
+            // Check to see if the given delimiter has a length
+            // (is not the start of string) and if it matches
+            // field delimiter. If id does not, then we know
+            // that this delimiter is a row delimiter
+            if (matchedDelimiter.length && matchedDelimiter !== delimiter) {
+                // new row of data, add an empty row to the output
+                output.push([]);
+            }
+
+            if (matches[2]) {
+                // quoted value, unescape any double quotes
+                strMatchedValue = matches[2].replace(
+                    new RegExp("\"\"", "g"),
+                    "\""
+                );
+            } else {
+                // non-quoted value
+                strMatchedValue = matches[3];
+            }
+
+            output[output.length-1].push(strMatchedValue);
+        }
+
+        // Return the parsed data.
+        return output;
     };
 
     list = function (secrets) {
@@ -220,20 +288,87 @@ sjcl.misc.S={};sjcl.misc.cachedPbkdf2=function(a,b){var c=sjcl.misc.S,d;b=b||{};
         console.log(output);
     };
 
+    importLastpass = function (lastpassFile, outputFile) {
+        console.log("Processing Lastpass export file: " + lastpassFile);
+
+        // Lastpass export is a CSV with these columns:
+        //     url,username,password,extra,name,grouping,favorite
+        // Exported file can have a trailing empty line that has to be trimmed.
+        var lastpassCSVStr = fs.readFileSync(lastpassFile),
+            lastpassData = parseCSV(lastpassCSVStr, ','),
+            yithData = [],
+            lastpassEntry,
+            yithEntry;
+
+        console.log("Enter master password to use to encrypt secrets in Yith");
+
+        prompt.start();
+        prompt.get(promptSchema, function(error, input) {
+            var url,
+                username,
+                password,
+                extra,
+                name,
+                grouping,
+                favorite;
+            for (var i = 1; i < lastpassData.length; i++) {
+                lastpassEntry = lastpassData[i];
+                url = lastpassEntry[0];
+                username = lastpassEntry[1];
+                password = lastpassEntry[2];
+                extra = lastpassEntry[3];
+                name = lastpassEntry[4];
+                grouping = lastpassEntry[5];
+                favorite = lastpassEntry[6];
+                if (url == "http://sn") {
+                    // Secure note, secret is in extra
+                    password = extra;
+                    extra = "";
+                    grouping = "_securenote";
+                } else {
+                    // In other cases keep the original URL
+                    extra = url;
+                }
+                yithEntry = createEntry(
+                    name, // service
+                    username, // account
+                    sjcl.encrypt(input.password, password), // secret
+                    grouping, // tags
+                    extra // notes
+                );
+                yithData.push(yithEntry);
+            }
+
+            input = null;
+
+            // write Yith backup file in gzipped JSON format
+            zlib.gzip(JSON.stringify(yithData),
+                      function(error, result) {
+                          fs.writeFileSync(outputFile, result);
+                      });
+        });
+    };
+
     // MAIN
 
     program
-        .version("0.1.2")
+        .version("0.2.0")
         .usage("[options] <backup_file>")
         .option("-l, --list", "List passwords")
         .option("-s, --search <keyword>", "Search secrets", string)
         .option("-d, --decipher <service_number>", "Decipher a secret", parseInt)
         .option("-v, --view <service_number>", "Show a secret details", parseInt)
+        .option("--import-lastpass <lastpass_csv_export>", "Import passwords from Lastpass", string)
         .parse(process.argv);
 
     if (program.args.length !== 1) {
         console.log("Wrong number of arguments");
         console.log("Usage: " + program._usage);
+        return;
+    }
+
+    if (program.importLastpass) {
+        importLastpass(program.importLastpass, program.args[0]);
         return;
     }
 
