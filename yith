@@ -134,7 +134,7 @@ sjcl.misc.S={};sjcl.misc.cachedPbkdf2=function(a,b){var c=sjcl.misc.S,d;b=b||{};
         return String(val);
     };
 
-    createEntry = function(service, account, secret, tags, notes, expiration) {
+    createEntry = function (service, account, secret, tags, notes, expiration) {
         var expiration = expiration || 0,
             tags = tags instanceof Array ? tags : (tags ? [tags] : []),
             notes = notes || '',
@@ -151,8 +151,10 @@ sjcl.misc.S={};sjcl.misc.cachedPbkdf2=function(a,b){var c=sjcl.misc.S,d;b=b||{};
 
     // Taken from http://stackoverflow.com/a/1293163/2343
     parseCSV = function (csvStr, delimiter) {
+        var objPattern, output, matches, matchedDelimiter, strMatchedValue;
+
         delimiter = (delimiter || ",");
-        var objPattern = new RegExp(
+        objPattern = new RegExp(
             (
                 // Delimiters
                 "(\\" + delimiter + "|\\r?\\n|\\r|^)" +
@@ -163,10 +165,10 @@ sjcl.misc.S={};sjcl.misc.cachedPbkdf2=function(a,b){var c=sjcl.misc.S,d;b=b||{};
             ),
             "gi"
         );
-        var output = [[]];
-        var matches = null;
-        var matchedDelimiter = '';
-        var strMatchedValue = null;
+        output = [[]];
+        matches = null;
+        matchedDelimiter = '';
+        strMatchedValue = null;
 
         // Keep looping over the regular expression matches
         // until we can no longer find a match
@@ -201,9 +203,8 @@ sjcl.misc.S={};sjcl.misc.cachedPbkdf2=function(a,b){var c=sjcl.misc.S,d;b=b||{};
     };
 
     list = function (secrets) {
-        var output,
-            i,
-            s;
+        var output, i, s;
+
         for (i = 0; i < secrets.length; i += 1) {
             s = secrets[i];
             output = "[";
@@ -303,15 +304,17 @@ sjcl.misc.S={};sjcl.misc.cachedPbkdf2=function(a,b){var c=sjcl.misc.S,d;b=b||{};
         console.log("Enter master password to use to encrypt secrets in Yith");
 
         prompt.start();
-        prompt.get(promptSchema, function(error, input) {
+        prompt.get(promptSchema, function (error, input) {
             var url,
                 username,
                 password,
                 extra,
                 name,
                 grouping,
-                favorite;
-            for (var i = 1; i < lastpassData.length; i++) {
+                favorite,
+                i;
+
+            for (i = 1; i < lastpassData.length; i += 1) {
                 lastpassEntry = lastpassData[i];
                 url = lastpassEntry[0];
                 username = lastpassEntry[1];
@@ -320,7 +323,7 @@ sjcl.misc.S={};sjcl.misc.cachedPbkdf2=function(a,b){var c=sjcl.misc.S,d;b=b||{};
                 name = lastpassEntry[4];
                 grouping = lastpassEntry[5];
                 favorite = lastpassEntry[6];
-                if (url == "http://sn") {
+                if (url === "http://sn") {
                     // Secure note, secret is in extra
                     password = extra;
                     extra = "";

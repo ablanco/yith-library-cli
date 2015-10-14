@@ -1,9 +1,9 @@
 {
     "name": "yith-library-cli",
-    "version": "0.1.2",
+    "version": "0.2.0",
     "preferGlobal": true,
     "author": "Alejandro Blanco <alejandro.b.e@gmail.com>",
-    "description": "a command-line interface to Yith Library",
+    "description": "A command-line tool for Yith Library",
     "license": "MIT",
     "repository": {
         "type": "git",
@@ -12,7 +12,8 @@
     "keywords": [
         "cli",
         "yith",
-        "yithlibrary"
+        "yithlibrary",
+        "password"
     ],
     "dependencies": {
         "commander": "2.1.x",
