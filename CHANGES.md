@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Document --import-lastpass in README.
+
 ## 0.2.0
 
 - Added support to read an exported csv from LastPass and convert it to Yith
