@@ -42,12 +42,13 @@ And now you are ready to start developing awesome contributions :)
 
     Options:
 
-    -h, --help                       output usage information
-    -V, --version                    output the version number
-    -l, --list                       List passwords
-    -s, --search <keyword>           Search secrets
-    -d, --decipher <service_number>  Decipher a secret
-    -v, --view <service_number>      Show a secret details
+    -h, --help                             Print usage information
+    -V, --version                          Print the version number
+    -l, --list                             List passwords
+    -s, --search <keyword>                 Search secrets
+    -d, --decipher <service_number>        Decipher a secret
+    -v, --view <service_number>            Show a secret details
+    --import-lastpass <lastpass_csv_file>  Import secrets from Lastpass
 
 ## MIT License
 
