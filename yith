@@ -330,7 +330,7 @@ sjcl.misc.S={};sjcl.misc.cachedPbkdf2=function(a,b){var c=sjcl.misc.S,d;b=b||{};
                     grouping = "_securenote";
                 } else {
                     // In other cases keep the original URL
-                    extra = url;
+                    extra = url + "\n\n" + extra;
                 }
                 yithEntry = createEntry(
                     name, // service
