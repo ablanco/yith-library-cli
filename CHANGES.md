@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.2.2
 
 - Keep `extra` field when importing Lastpass entries. Previous
   versions were overwriting `extra` with the `url` field. This fix

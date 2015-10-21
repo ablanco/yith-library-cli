@@ -3,7 +3,7 @@
 [![NPM version](https://badge.fury.io/js/yith-library-cli.png)](http://badge.fury.io/js/yith-library-cli)
 [![Dependency Status](https://david-dm.org/ablanco/yith-library-cli.png)](https://david-dm.org/ablanco/yith-library-cli)
 
-Command line interface for [Yith Library](http://yithlibrary.com).
+Command line tool for [Yith Library](http://yithlibrary.com).
 
 Right now it can only read the contents of a Yith Library backup file,
 providing offline access to your protected secrets. Interaction with a remote
@@ -49,6 +49,22 @@ And now you are ready to start developing awesome contributions :)
     -d, --decipher <service_number>        Decipher a secret
     -v, --view <service_number>            Show a secret details
     --import-lastpass <lastpass_csv_file>  Import secrets from Lastpass
+
+### How to import from LastPass
+
+The first step is to export your
+[LastPass data in csv format](https://lastpass.com/support.php?cmd=showfaq&id=1206).
+
+Then you use this tool to convert the LastPass backup into a Yith backup file.
+Use the `--import-lastpass` option.
+
+    yith --import-lastpass <lastpass_csv_file> <yith_backup_file>
+
+Now you can import the Yith backup into your Yith account. You can do it at
+your profile in [our server](https://www.yithlibrary.com/backup) or your own
+if you have deployed a custom installation.
+
+Enjoy your passwords in Yith!
 
 ## MIT License
 

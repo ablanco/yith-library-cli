@@ -355,7 +355,7 @@ sjcl.misc.S={};sjcl.misc.cachedPbkdf2=function(a,b){var c=sjcl.misc.S,d;b=b||{};
     // MAIN
 
     program
-        .version("0.2.0")
+        .version("0.2.2")
         .usage("[options] <backup_file>")
         .option("-l, --list", "List passwords")
         .option("-s, --search <keyword>", "Search secrets", string)
