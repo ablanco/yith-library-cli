@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Keep `extra` field when importing Lastpass entries. Previous
+  versions were overwriting `extra` with the `url` field. This fix
+  concatenates `url` and `extra` into Yith Library's `notes` field.
+
 ## 0.2.1
 
 - Document --import-lastpass in README.
