@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0
+
+- Add an option to export the file in the Bitwarden format.
+
 ## 0.2.2
 
 - Keep `extra` field when importing Lastpass entries. Previous
