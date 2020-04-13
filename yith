@@ -121,6 +121,7 @@ sjcl.misc.S={};sjcl.misc.cachedPbkdf2=function(a,b){var c=sjcl.misc.S,d;b=b||{};
         decipher,
         view,
         importLastpass,
+        exportBitwarden,
         secretsFile;
 
     promptSchema = {
@@ -352,6 +353,38 @@ sjcl.misc.S={};sjcl.misc.cachedPbkdf2=function(a,b){var c=sjcl.misc.S,d;b=b||{};
         });
     };
 
+    exportBitwarden = function (secrets, outputFile) {
+
+        function sanitizeString (desc) {
+            var itemDesc = '';
+            if (desc) {
+                itemDesc = desc.replace(/"/g, '""');
+                return '"' + itemDesc + '"';
+            }
+            return itemDesc;
+        }
+        prompt.start();
+        prompt.get(promptSchema, function (error, input) {
+            try {
+                var plain;
+                var writeStream = fs.createWriteStream(outputFile);
+                writeStream.write('folder,favorite,type,name,notes,fields,login_uri,login_username,login_password,login_totp');
+                secrets.forEach((data, index) => {
+                    plain = sjcl.decrypt(input.password, data.secret);
+                    let newLine = [
+                        'yith', '', 'login',
+                        sanitizeString(data.service), sanitizeString(data.notes), '', '',
+                        sanitizeString(data.account), sanitizeString(plain), ''
+                    ]
+                    writeStream.write(newLine.join(',')+ '\n')
+                })
+                writeStream.end()
+                plain = input = null;
+            } catch (err) {
+                console.log("Wrong master password");
+            }
+        });
+    };
     // MAIN
 
     program
@@ -362,6 +395,7 @@ sjcl.misc.S={};sjcl.misc.cachedPbkdf2=function(a,b){var c=sjcl.misc.S,d;b=b||{};
         .option("-d, --decipher <service_number>", "Decipher a secret", parseInt)
         .option("-v, --view <service_number>", "Show a secret details", parseInt)
         .option("--import-lastpass <lastpass_csv_export>", "Import passwords from Lastpass", string)
+        .option("--export-bitwarden <output_bitwarden_csv_file>", "Extport passwords to Bitwarden")
         .parse(process.argv);
 
     if (program.args.length !== 1) {
@@ -389,6 +423,11 @@ sjcl.misc.S={};sjcl.misc.cachedPbkdf2=function(a,b){var c=sjcl.misc.S,d;b=b||{};
             if (program.list) {
                 hadOptions = true;
                 list(secrets);
+            }
+
+            if (program.exportBitwarden) {
+                hadOptions = true;
+                exportBitwarden(secrets, program.exportBitwarden);
             }
 
             if (program.search) {
