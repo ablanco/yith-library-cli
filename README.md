@@ -42,13 +42,14 @@ And now you are ready to start developing awesome contributions :)
 
     Options:
 
-    -h, --help                             Print usage information
-    -V, --version                          Print the version number
-    -l, --list                             List passwords
-    -s, --search <keyword>                 Search secrets
-    -d, --decipher <service_number>        Decipher a secret
-    -v, --view <service_number>            Show a secret details
-    --import-lastpass <lastpass_csv_file>  Import secrets from Lastpass
+    -h, --help                                      Print usage information
+    -V, --version                                   Print the version number
+    -l, --list                                      List passwords
+    -s, --search <keyword>                          Search secrets
+    -d, --decipher <service_number>                 Decipher a secret
+    -v, --view <service_number>                     Show a secret details
+    --import-lastpass <lastpass_csv_file>           Import secrets from Lastpass
+    --export-bitwarden <output_bitwarden_csv_file>  Extport passwords to Bitwarden
 
 ### How to import from LastPass
 
