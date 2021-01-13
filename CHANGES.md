@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1
+
+- Fix version number in the command line tool.
+
 ## 0.3.0
 
 - Add an option to export the file in the Bitwarden format.

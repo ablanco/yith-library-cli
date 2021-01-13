@@ -1,8 +1,5 @@
 # Yith Library - Command line interface
 
-[![NPM version](https://badge.fury.io/js/yith-library-cli.png)](http://badge.fury.io/js/yith-library-cli)
-[![Dependency Status](https://david-dm.org/ablanco/yith-library-cli.png)](https://david-dm.org/ablanco/yith-library-cli)
-
 Command line tool for [Yith Library](http://yithlibrary.com).
 
 Right now it can only read the contents of a Yith Library backup file,
@@ -66,6 +63,17 @@ your profile in [our server](https://www.yithlibrary.com/backup) or your own
 if you have deployed a custom installation.
 
 Enjoy your passwords in Yith!
+
+### How to export to Bitwarden
+
+First you need to download your password in a Yith backup file.
+
+Then you use this tool to convert the Yith backup into a Bitwarden backup file.
+Use the `--export-bitwarden` option.
+
+    yith --export-bitwarden <new_file.json> <yith_backup_file>
+
+Be aware that Bitwarden JSON backups are in plain text!
 
 ## MIT License
 

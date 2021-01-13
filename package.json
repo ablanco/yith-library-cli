@@ -1,6 +1,6 @@
 {
     "name": "yith-library-cli",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "preferGlobal": true,
     "author": "Alejandro Blanco <alejandro.b.e@gmail.com>",
     "description": "A command-line tool for Yith Library",
